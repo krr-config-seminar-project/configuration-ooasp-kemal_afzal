@@ -11,6 +11,12 @@ ooasp_subclass("v1", "ICEForkLift", "Forklift").
 
 ooasp_assoc("v1", "Forklift_Battery", "ElectricForklift", 1, 1, "Battery", 1, 1).
 
+ooasp_attribute("v1","ICEForkLift","engine","string").
+ooasp_attribute_enum("v1", "ICEForkLift", "engine", "gas").
+ooasp_attribute_enum("v1", "ICEForkLift", "engine", "diesel").
+
+ooasp_attribute("v1","Forklift","indoor","boolean").
+
 ooasp_attribute("v1","Forklift","range","integer").
 ooasp_attribute_minInclusive("v1", "Forklift", "range", 2).
 ooasp_attribute_maxInclusive("v1", "Forklift", "range", 8).

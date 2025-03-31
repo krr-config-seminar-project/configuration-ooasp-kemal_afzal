@@ -23,3 +23,15 @@
     ooasp_isa(I, "ICEForkLift", F),
     ooasp_attribute_value(I, "range", F, R),
     R < 4.
+
+% Diesel engines may not be used indoors.
+% Electric forklifts can always be used indoors.
+
+:- ooasp_instantiation("v1", I),
+    ooasp_isa(I, "ICEForkLift", F),
+    ooasp_attribute_value(I, "indoor", F, "TRUE"),
+    ooasp_attribute_value(I, "engine", F, "diesel").
+
+:- ooasp_instantiation("v1", I),
+    ooasp_isa(I, "ElectricForklift", F),
+    ooasp_attribute_value(I, "indoor", F, "FALSE").
