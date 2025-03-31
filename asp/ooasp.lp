@@ -41,7 +41,27 @@ L { ooasp_associated(I, A, (C1,ID1), (C2,ID2)) :
 	ooasp_isa(I, C1, (C1,ID1)),
 	ooasp_may_be_used_for(M, C1, CA1),
 
-	ooasp_assoc(M, A, CA1, L, H, CA2, _, _).
+	ooasp_assoc(M, A, CA1, _, _, CA2, L, H).
+
+% Ensure backwards multiplities are held
+:- ooasp_instantiation(M, I),
+	ooasp_assoc(M, A, CA1, L, H, CA2, _, _),
+
+	ooasp_isa(I, C2, (C2,ID2)),
+	ooasp_may_be_used_for(M, C2, CA2),
+
+	#count{(C1,ID1) : ooasp_associated(I, A, (C1,ID1),(C2,ID2)),
+		ooasp_isa(I, C1, (C1,ID1)),
+		ooasp_may_be_used_for(M, C1, CA1)} < L.
+:- ooasp_instantiation(M, I),
+	ooasp_assoc(M, A, CA1, L, H, CA2, _, _),
+
+	ooasp_isa(I, C2, (C2,ID2)),
+	ooasp_may_be_used_for(M, C2, CA2),
+
+	#count{(C1,ID1) : ooasp_associated(I, A, (C1,ID1),(C2,ID2)),
+		ooasp_isa(I, C1, (C1,ID1)),
+		ooasp_may_be_used_for(M, C1, CA1)} > H.
 
 {ooasp_attribute_value(I, AT, (C,ID), V) : bool_value(V)} = 1 :-
 	ooasp_instantiation(M, I),

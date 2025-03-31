@@ -4,26 +4,25 @@
 %
 :- ooasp_instantiation("v1", I),
 	ooasp_isa(I, "Frame", F),
-	ooasp_associated(I, "Frame_modules", F, MID1),
-	ooasp_associated(I, "Frame_modules", F, MID2),
-	ooasp_attribute_value(I, "position", MID1, P1),
-	ooasp_attribute_value(I, "position", MID1, P2),
+	ooasp_associated(I, "Frame_modules", F, M1),
+	ooasp_associated(I, "Frame_modules", F, M2),
+	ooasp_attribute_value(I, "position", M1, P1),
+	ooasp_attribute_value(I, "position", M2, P2),
 	P1 == P2,
-	MID1 != MID2.
+	M1 != M2.
 
 % Two modules of type ModuleA may not be adjacent to each other.
 %
 :- ooasp_instantiation("v1", I),
 	ooasp_isa(I, "Frame", F),
-	ooasp_associated(I, "Frame_modules", F, MID1),
-	ooasp_associated(I, "Frame_modules", F, MID2),
-	ooasp_isa(I, "ModuleA", MID1),
-	ooasp_isa(I, "ModuleA", MID2),
-	ooasp_attribute_value(I, "position", MID1, P1),
-	ooasp_attribute_value(I, "position", MID1, P2),
-	P1 + 1 == P2,
-	P2 + 1 == P1,
-	MID1 != MID2.
+	ooasp_associated(I, "Frame_modules", F, M1),
+	ooasp_associated(I, "Frame_modules", F, M2),
+	ooasp_isa(I, "ModuleA", M1),
+	ooasp_isa(I, "ModuleA", M2),
+	ooasp_attribute_value(I, "position", M1, P1),
+	ooasp_attribute_value(I, "position", M2, P2),
+	P1+1 == P2,
+	M1 != M2.
 
 % symmetry breaking for positions. For each frame, and each module
 % type, the mapping from modules of the same type to their positions
