@@ -1,14 +1,29 @@
 #include "./ooasp.lp".
 
-% domain specific constraints below
-
 % Two modules in the same frame cannot have the same position.
 %
-% Your domain-specific constraint goes here...
+:- ooasp_instantiation("v1", I),
+	ooasp_isa(I, "Frame", F),
+	ooasp_associated(I, "Frame_modules", F, MID1),
+	ooasp_associated(I, "Frame_modules", F, MID2),
+	ooasp_attribute_value(I, "position", MID1, P1),
+	ooasp_attribute_value(I, "position", MID1, P2),
+	P1 == P2,
+	MID1 != MID2.
 
 % Two modules of type ModuleA may not be adjacent to each other.
 %
-% Your domain-specific constraint goes here...
+:- ooasp_instantiation("v1", I),
+	ooasp_isa(I, "Frame", F),
+	ooasp_associated(I, "Frame_modules", F, MID1),
+	ooasp_associated(I, "Frame_modules", F, MID2),
+	ooasp_isa(I, "ModuleA", MID1),
+	ooasp_isa(I, "ModuleA", MID2),
+	ooasp_attribute_value(I, "position", MID1, P1),
+	ooasp_attribute_value(I, "position", MID1, P2),
+	P1 + 1 == P2,
+	P2 + 1 == P1,
+	MID1 != MID2.
 
 % symmetry breaking for positions. For each frame, and each module
 % type, the mapping from modules of the same type to their positions

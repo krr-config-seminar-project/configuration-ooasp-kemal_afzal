@@ -1,6 +1,4 @@
-% Please insert the names and email addresses of the group members:
-%
-%
+% Kemal Afzal, afzal@uni-potsdam.de
 
 #const max_instance_per_leaf_class = 10.
 #const int_domain_max = 20.
@@ -29,6 +27,42 @@ ooasp_instantiation(M, I) :- ooasp_isa(I, C, O), ooasp_class(M, C).
 %
 % Your encoding goes here...
 %
+% Helper to model subclass relationship
+ooasp_may_be_used_for(M, C, C) :- ooasp_class(M, C).
+ooasp_may_be_used_for(M, C1, C2) :- ooasp_subclass(M, C1, C2).
+
+% Generate associations between objects
+
+L { ooasp_associated(I, A, (C1,ID1), (C2,ID2)) :
+		ooasp_isa(I, C2, (C2,ID2)),
+		ooasp_may_be_used_for(M, C2, CA2)} H :-
+	ooasp_instantiation(M, I),
+
+	ooasp_isa(I, C1, (C1,ID1)),
+	ooasp_may_be_used_for(M, C1, CA1),
+
+	ooasp_assoc(M, A, CA1, L, H, CA2, _, _).
+
+{ooasp_attribute_value(I, AT, (C,ID), V) : bool_value(V)} = 1 :-
+	ooasp_instantiation(M, I),
+	ooasp_isa(I, C, (C,ID)),
+	ooasp_may_be_used_for(M, C, CA),
+	ooasp_attribute(M, CA, AT, "boolean").
+
+{ooasp_attribute_value(I, AT, (C,ID), V) : ooasp_attribute_enum(M, CA, AT, V)} = 1 :-
+	ooasp_instantiation(M, I),
+	ooasp_isa(I, C, (C,ID)),
+	ooasp_may_be_used_for(M, C, CA),
+	ooasp_attribute(M, CA, AT, "string").
+
+{ooasp_attribute_value(I, AT, (C,ID), V) : int_value(V),
+		ooasp_attribute_minInclusive(M, CV, AT, L),
+		ooasp_attribute_maxInclusive(M, CV, AT, H),
+		V >= L, V <= H} = 1 :-
+	ooasp_instantiation(M, I),
+	ooasp_isa(I, C, (C,ID)),
+	ooasp_attribute(M, CV, AT, "integer"),
+	ooasp_may_be_used_for(M, C, CV).
 
 % symmetry breaking and minimization
 
